@@ -13,14 +13,15 @@ const extensions = [
     Color,
 ]
 
-export default function DocEditor({content, editable}: { content: string, editable: boolean }) {
+export default function DocEditor({content}: { content: string }) {
     return (
-        <EditorProvider slotBefore={editable && <EditorMenuBar/>}
+        <EditorProvider slotBefore={<EditorMenuBar/>}
                         extensions={extensions}
                         content={content}
-                        editable={editable}
                         autofocus={true}>
-            <BubbleMenu>sdf</BubbleMenu>
+            <BubbleMenu className="bg-neutral-200 rounded-lg shadow-lg">
+                <EditorMenuBar/>
+            </BubbleMenu>
         </EditorProvider>
     )
 }
