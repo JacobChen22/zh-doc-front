@@ -5,6 +5,10 @@ const router = createBrowserRouter([
     {
         path: '',
         element: <HomeLayout/>
+    },
+    {
+        path: '/doc/:id',
+        element: <HomeLayout/>
     }
 ]);
 
