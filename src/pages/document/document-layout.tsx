@@ -14,26 +14,32 @@ export default function DocumentLayout() {
     if (!documentId) {
         return (
             <div className="flex flex-1 justify-center items-center">
-                Document not exist
+                Document Id Not Provided
             </div>
         )
     }
 
     useEffect(() => {
         getDocumentById(Number(documentId)).then((res) => {
-            setDocument(res);
+            setDocument(res ? res : {})
         });
     }, []);
 
     return (
         <>
             {document ? (
-                <div className="flex-1">
-                    <DocHeader docInfo={document}/>
-                    <div className="h-auto px-6 py-2">
-                        <DocEditor content={document.body}/>
+                document.title ? (
+                    <div className="flex-1">
+                        <DocHeader docInfo={document}/>
+                        <div className="h-auto px-6 py-2">
+                            <DocEditor content={document.body}/>
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    <div className="flex flex-1 justify-center items-center">
+                        The document with id: {documentId} does not exist.
+                    </div>
+                )
             ) : (
                 <div className="flex flex-col flex-1">
 
