@@ -1,17 +1,16 @@
 import DocHeader from "../../components/doc-header.tsx";
 import DocEditor from "../../components/editor/doc-editor.tsx";
-import {getDocumentById} from "../../server/api/document.ts";
+import {getDocumentById, updateDocument} from "../../server/api/document.ts";
 import {useEffect, useState} from "react";
 import {ArrowPathIcon} from "@heroicons/react/24/outline";
-import {useParams} from "react-router-dom";
+import {EditorEvents} from "@tiptap/react";
+import {debounce} from "lodash";
 
-export default function DocumentLayout() {
+export default function DocumentLayout({docId, space}: { docId: string, space: any }) {
 
-    const params = useParams();
     const [document, setDocument] = useState<any>(null);
-    const documentId = params.id;
 
-    if (!documentId) {
+    if (!docId) {
         return (
             <div className="flex flex-1 justify-center items-center">
                 Document Id Not Provided
@@ -20,24 +19,33 @@ export default function DocumentLayout() {
     }
 
     useEffect(() => {
-        getDocumentById(Number(documentId)).then((res) => {
+        getDocumentById(Number(docId)).then((res) => {
             setDocument(res ? res : {})
         });
     }, []);
+
+
+    function handleEditUpdate(props: EditorEvents['update']) {
+        updateDocument(document.id, document.title, props.editor.getHTML()).then(() => {
+            console.log('saved');
+        });
+    }
+
+    const handleEditUpdateDebounced = debounce(handleEditUpdate, 2000);
 
     return (
         <>
             {document ? (
                 document.title ? (
                     <div className="flex-1">
-                        <DocHeader docInfo={document}/>
+                        <DocHeader spaceName={space.name} isSpace={false} titleName={document.title}/>
                         <div className="h-auto px-6 py-2">
-                            <DocEditor content={document.body}/>
+                            <DocEditor content={document.body} handleUpdate={handleEditUpdateDebounced}/>
                         </div>
                     </div>
                 ) : (
                     <div className="flex flex-1 justify-center items-center">
-                        The document with id: {documentId} does not exist.
+                        The document with id: {docId} does not exist.
                     </div>
                 )
             ) : (

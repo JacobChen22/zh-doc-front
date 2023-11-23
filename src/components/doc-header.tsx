@@ -1,10 +1,14 @@
-import {clsx} from "clsx";
 import {LinkIcon, MagnifyingGlassIcon, PlusIcon} from "@heroicons/react/24/outline";
 import {useState} from "react";
 import CreateDocModal from "./create-doc-modal.tsx";
 import {createDocument} from "../server/api/document.ts";
+import {clsx} from "clsx";
 
-export default function DocHeader({docInfo}: { docInfo: any }) {
+export default function DocHeader({spaceName, titleName, isSpace}: {
+    spaceName: string,
+    titleName?: string,
+    isSpace: boolean
+}) {
 
     const [open, setOpen] = useState(false);
     const buttonStyle = "rounded-lg bg-blue-600 px-2.5 py-1 text-white hover:bg-blue-500 flex flex-row items-center gap-1";
@@ -29,11 +33,16 @@ export default function DocHeader({docInfo}: { docInfo: any }) {
         <div className="flex flex-row justify-between items-center
             h-16 px-6 py-2 border-b-2 border-b-gray-200">
             <div className="flex flex-col text-sm">
-                <div className="font-bold">ZH Doc's Space / {docInfo?.title}</div>
-                <div className="text-xs text-slate-500">
-                    Created by <span className="text-slate-600">Who</span>，
-                    Updated by <span className="text-slate-600">Who 2023-08-27 10:13 </span>
+                <div className="font-bold">
+                    {isSpace ? `${spaceName}'s Space` :
+                        `${spaceName}'s Space / ${titleName}`}
                 </div>
+                {isSpace ? null : (
+                    <div className="text-xs text-slate-500">
+                        Created by <span className="text-slate-600">Who</span>，
+                        Updated by <span className="text-slate-600">Who 2023-08-27 10:13 </span>
+                    </div>
+                )}
             </div>
             <div className="flex flex-row gap-2">
                 <div className="flex flex-row items-center border w-48">

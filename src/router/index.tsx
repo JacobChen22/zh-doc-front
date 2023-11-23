@@ -1,17 +1,17 @@
 import {createBrowserRouter} from "react-router-dom";
-import HomeLayout from "../pages/home/home-layout.tsx";
 import LoginLayout from "../pages/login/login-layout.tsx";
+import SpaceHome from "../pages/home/space-home.tsx";
 
 const router = createBrowserRouter([
     {
         path: '',
-        element: <HomeLayout/>
+        element: <SpaceHome/>
     }, {
         path: '/login',
         element: <LoginLayout/>
     }, {
-        path: '/doc/:id',
-        element: <HomeLayout/>
+        path: '/s/:spaceId',
+        element: <SpaceHome/>,
     }
 ]);
 

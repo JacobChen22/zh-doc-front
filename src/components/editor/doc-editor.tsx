@@ -1,5 +1,5 @@
 import './editor.css';
-import {BubbleMenu, EditorProvider} from "@tiptap/react";
+import {BubbleMenu, EditorEvents, EditorProvider} from "@tiptap/react";
 import {StarterKit} from "@tiptap/starter-kit";
 import EditorMenuBar from "./menu-bar.tsx";
 import {Underline} from "@tiptap/extension-underline";
@@ -13,12 +13,16 @@ const extensions = [
     Color,
 ]
 
-export default function DocEditor({content}: { content: string }) {
+export default function DocEditor({content, handleUpdate}: {
+    content: string,
+    handleUpdate?: (props: EditorEvents['update']) => void
+}) {
     return (
         <EditorProvider slotBefore={<EditorMenuBar/>}
                         extensions={extensions}
                         content={content}
-                        autofocus={true}>
+                        autofocus={true}
+                        onUpdate={handleUpdate}>
             <BubbleMenu className="bg-neutral-200 rounded-lg shadow-lg">
                 <EditorMenuBar/>
             </BubbleMenu>
