@@ -1,5 +1,7 @@
 import {BarsArrowDownIcon, BookOpenIcon, HomeIcon} from "@heroicons/react/24/outline";
 import CatalogTree, {TreeData} from "./catalog-tree.tsx";
+import {UserCircleIcon} from "@heroicons/react/24/solid";
+import {Link} from "react-router-dom";
 
 const staticHomeTree: TreeData[] = [
     {
@@ -37,6 +39,12 @@ export default function DocSideNav({space}: { space: any }) {
                     <div className="text-base font-medium">Space Catalog</div>
                 </div>
                 <CatalogTree treeData={staticHomeTree}/>
+            </div>
+            <div className="h-10 flex flex-row items-center justify-center">
+                <Link to="/login"
+                      className="flex flex-row px-2 py-1 items-center rounded-xl text-white bg-slate-700 hover:bg-slate-500">
+                    <UserCircleIcon className="h-8 pr-2"/> Login
+                </Link>
             </div>
         </div>
     )
