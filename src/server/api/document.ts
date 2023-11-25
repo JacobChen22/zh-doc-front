@@ -20,3 +20,8 @@ export async function updateDocument(id: string, title: string, body: string,) {
     });
     return response.data;
 }
+
+export async function getSpaceDocumentTree(spaceId: string) {
+    const response = await commonRequest.get(`document/space/${spaceId}`);
+    return response.data;
+}

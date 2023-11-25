@@ -1,25 +1,21 @@
 import {BarsArrowDownIcon, BookOpenIcon, HomeIcon} from "@heroicons/react/24/outline";
-import CatalogTree, {TreeData} from "./catalog-tree.tsx";
+import CatalogTree from "./catalog-tree.tsx";
 import {UserCircleIcon} from "@heroicons/react/24/solid";
 import {Link} from "react-router-dom";
-
-const staticHomeTree: TreeData[] = [
-    {
-        title: 'Tutorial',
-        key: '0-0',
-        children: [
-            {
-                title: 'How to ?', key: '0-0-0', children: [
-                    {title: 'apply space', key: '0-0-0-0'},
-                    {title: 'create new document', key: '0-0-0-1'},
-                ]
-            },
-            {title: 'Thanks', key: '0-0-1'},
-        ],
-    }
-];
+import {useEffect, useState} from "react";
+import {getSpaceDocumentTree} from "../server/api/document.ts";
 
 export default function DocSideNav({space}: { space: any }) {
+
+    const [spaceDocTree, setSpaceDocTree] = useState([]);
+
+    useEffect(() => {
+        if (space) {
+            getSpaceDocumentTree(space.id).then(data => {
+                setSpaceDocTree(data);
+            })
+        }
+    }, [space]);
 
     return (
         <div className="mx-4 my-4 flex flex-col grow">
@@ -38,7 +34,7 @@ export default function DocSideNav({space}: { space: any }) {
                     <BarsArrowDownIcon className="h-6 mr-2"/>
                     <div className="text-base font-medium">Space Catalog</div>
                 </div>
-                <CatalogTree treeData={staticHomeTree}/>
+                <CatalogTree treeData={spaceDocTree}/>
             </div>
             <div className="h-10 flex flex-row items-center justify-center">
                 <Link to="/login"

@@ -4,6 +4,7 @@ import React from "react";
 export interface TreeData {
     title: string,
     key: string,
+    type: string,
     children?: TreeData[],
 }
 
