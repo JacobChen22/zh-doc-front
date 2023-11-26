@@ -10,8 +10,8 @@ const router = createBrowserRouter([
         path: '/login',
         element: <LoginLayout/>
     }, {
-        path: '/s/:spaceId',
-        element: <SpaceHome/>,
+        path: '/s/:spaceId/:docId?',
+        element: <SpaceHome/>
     }
 ]);
 
