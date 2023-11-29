@@ -23,9 +23,11 @@ export default function DocEditor({content, handleUpdate}: {
                         content={content}
                         autofocus={true}
                         onUpdate={handleUpdate}>
-            <BubbleMenu className="bg-neutral-200 rounded-lg shadow-lg">
-                <EditorMenuBar/>
-            </BubbleMenu>
+            <div>
+                <BubbleMenu className="bg-neutral-200 rounded-lg shadow-lg">
+                    <EditorMenuBar/>
+                </BubbleMenu>
+            </div>
         </EditorProvider>
     )
 }

@@ -23,6 +23,7 @@ export default function DocumentLayout({space}: { space: any }) {
     }
 
     useEffect(() => {
+        setLoading(true);
         getDocumentById(Number(docId)).then((res) => {
             setDocument(res ? res : {})
             setLoading(false);
