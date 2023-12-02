@@ -16,7 +16,7 @@ export default function SpaceLayout({space}: { space: any }) {
 
     return (
         <div className="flex-1">
-            <DocHeader spaceName={space.name} isSpace={true}/>
+            <DocHeader space={space} isSpace={true}/>
             <div className="h-auto px-6 py-2">
                 <DocEditor content={space.body} handleUpdate={handleEditUpdateDebounced}/>
             </div>

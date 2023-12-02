@@ -1,19 +1,33 @@
 import {LinkIcon, MagnifyingGlassIcon, PlusIcon} from "@heroicons/react/24/outline";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import CreateDocModal from "./create-doc-modal.tsx";
 import {createDocument} from "../server/api/document.ts";
 import {clsx} from "clsx";
+import {getUseById} from "../server/api/user.ts";
 
-export default function DocHeader({spaceName, titleName, isSpace}: {
-    spaceName: string,
-    titleName?: string,
+export default function DocHeader({space, document, isSpace}: {
+    space: any,
+    document?: any,
     isSpace: boolean
 }) {
 
     const [open, setOpen] = useState(false);
+    const [creatorName, setCreatorName] = useState('');
+    const [updaterName, setUpdaterName] = useState('');
     const buttonStyle = "rounded-lg bg-blue-600 px-2.5 py-1 text-white hover:bg-blue-500 flex flex-row items-center gap-1";
     const buttonOutlineStyle = "rounded-lg px-2.5 py-1 hover:bg-slate-100 border-solid border flex flex-row items-center gap-1";
     const iconHeight = "h-4";
+
+    useEffect(() => {
+        if (document) {
+            getUseById(document.creatorId).then(res => {
+                setCreatorName(res.name);
+            });
+            getUseById(document.updaterId).then(res => {
+                setUpdaterName(res.name);
+            });
+        }
+    }, [document]);
 
     function handleCreateEvent() {
         setOpen(true);
@@ -34,13 +48,18 @@ export default function DocHeader({spaceName, titleName, isSpace}: {
             h-16 px-6 py-2 border-b-2 border-b-gray-200">
             <div className="flex flex-col text-sm">
                 <div className="font-bold">
-                    {isSpace ? `${spaceName}'s Space` :
-                        `${spaceName}'s Space / ${titleName}`}
+                    {isSpace ? `${space.name}'s Space` :
+                        `${space.name}'s Space / ${document.title}`}
                 </div>
                 {isSpace ? null : (
                     <div className="text-xs text-slate-500">
-                        Created by <span className="text-slate-600">Who</span>，
-                        Updated by <span className="text-slate-600">Who 2023-08-27 10:13 </span>
+                        {creatorName && (
+                            <>Created by <span className="text-slate-600">{creatorName}</span>, </>
+                        )}
+                        {updaterName && (
+                            <>Updated by <span
+                                className="text-slate-600">{updaterName} ({new Date(document.updatedAt).toLocaleString()})</span></>
+                        )}
                     </div>
                 )}
             </div>

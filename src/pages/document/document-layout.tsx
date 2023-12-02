@@ -44,7 +44,7 @@ export default function DocumentLayout({space}: { space: any }) {
             {!loading ? (
                 document.title ? (
                     <div className="flex-1">
-                        <DocHeader spaceName={space.name} isSpace={false} titleName={document.title}/>
+                        <DocHeader space={space} isSpace={false} document={document}/>
                         <div className="h-auto px-6 py-2">
                             <DocEditor content={document.body} handleUpdate={handleEditUpdateDebounced}/>
                         </div>
